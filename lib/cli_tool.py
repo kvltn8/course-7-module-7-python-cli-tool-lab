@@ -9,18 +9,28 @@ users = {}
 # TODO: Implement function to add a task for a user
 def add_task(args):
     # - Check if the user exists, if not, create one
+    if args.user not in users:
+        users[args.user] = User(args.user)
     # - Create a new Task with the given title
+    task = Task(args.title)
     # - Add the task to the user's task list
-    pass
-
+    users[args.user].add_task(task)
+    
 # TODO: Implement function to mark a task as complete
 def complete_task(args):
     # - Look up the user by name
+    user = users.get(args.user)
+    if not user:
+        print(f" user {args.use} not found")
+        return
     # - Look up the task by title
+    task = user.get_task_by_title(args.title)
+    if task:
     # - Mark the task as complete
+        task.complete()
     # - Print appropriate error messages if not found
-    pass
-
+    else:
+        print(f"Task {args.title} not found for user {args.user}.")
 # CLI entry point
 def main():
     parser = argparse.ArgumentParser(description="Task Manager CLI")
